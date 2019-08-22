@@ -1,0 +1,29 @@
+spring:
+  profiles:
+    active: dev
+  datasource:
+    #driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/mybatis-plus?characterEncoding=utf8&useSSL=false
+    username: root
+    password: root
+
+#mybatis日志
+mybatis-plus:
+  configuration:
+    #使用了plus的性能分析插件 所以不需要了
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  mapper-locations:  classpath:/mapper/*Mapper.xml,classpath:/com/lianglong/cache/mapper/*/*Mapper.xml
+  type-aliases-package: com.lianglong.bean
+server:
+  port: 8080
+---
+server:
+  port: 9002
+spring:
+  profiles: dev
+---
+server:
+  port: 9003
+spring:
+  profiles: permission
