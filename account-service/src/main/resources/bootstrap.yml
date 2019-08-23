@@ -8,7 +8,68 @@ spring:
         file-extension: yaml
       discovery:
         server-addr: 127.0.0.1:8848
-
+    sentinel:
+      eager: true
+      transport:
+        dashboard: localhost:8080
+      datasource:
+        ds1:
+          nacos:
+            server-addr: 127.0.0.1:8848
+            dataId: ${spring.application.name}-degrade-rules
+            data-type: json
+            rule-type: degrade
 feign:
   sentinel:
     enabled: true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ribbon:
+  ConnectTimeout: 2000
+  ReadTimeout: 5000

@@ -1,4 +1,7 @@
 package com.lianglong.paymentservice.controller;
+
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.lianglong.bean.Balance;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,8 +36,8 @@ public class PaymentController {
     }
 
     @GetMapping("/pay/balance/{id}")
+    @SentinelResource(value = "protected-resource", blockHandler = "handleBlock")
     public Balance getBalance(@PathVariable Integer id) {
-       // System.out.println("request: /pay/balance?id=" + id + ", sleep: " + sleep);
         log.info("request:/pay/balance/{},sleep:{}",id,sleep);
         if (sleep > 0) {
             try {
@@ -48,5 +51,10 @@ public class PaymentController {
             return balanceMap.get(id);
         }
         return new Balance(0, 0, 0);
+    }
+
+    public Balance handleBlock(Integer id, BlockException e) {
+        log.info("balancdId是：{}，异常是：{}",id,e);
+        return new Balance(0, 0, 0, "限流");
     }
 }
